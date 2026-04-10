@@ -68,7 +68,7 @@ body {
 /* HERO */
 .hero {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
   min-height: 320px;
 }
 
