@@ -74,7 +74,7 @@ body {
 
 .hero-left {
   background: var(--navy);
-  padding: 2.75rem;
+  padding: 2.75rem 2.75rem 2.75rem 4.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
