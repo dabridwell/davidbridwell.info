@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Portfolio — David Bridwell Ph.D.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0d1b2a;
+      --navy-mid: #1a2e42;
+      --accent: #c8a96e;
+      --text-muted: #5a6472;
+      --bg: #f8f6f1;
+      --white: #ffffff;
+      --border: rgba(0,0,0,0.08);
+      --rule: rgba(200,169,110,0.35);
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--navy);
+      color: var(--white);
+      min-height: 100vh;
+    }
+
+    /* ── PASSWORD GATE ── */
+    #pw-gate {
+      position: fixed;
+      inset: 0;
+      background: var(--navy);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #pw-gate.hidden { display: none; }
+
+    .pw-box {
+      background: var(--white);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 380px;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .pw-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 0.4rem;
+    }
+    .pw-logo span { color: var(--accent); }
+    .pw-label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    .pw-input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 0.5px solid var(--border);
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.15s;
+      margin-bottom: 0.75rem;
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+    .pw-input:focus { border-color: var(--accent); }
+    .pw-btn {
+      width: 100%;
+      background: var(--navy);
+      color: var(--white);
+      border: none;
+      padding: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: background 0.15s;
+    }
+    .pw-btn:hover { background: var(--navy-mid); }
+    .pw-error {
+      font-size: 12px;
+      color: #b94a48;
+      margin-top: 0.75rem;
+      min-height: 18px;
+    }
+
+    /* ── PORTFOLIO CONTENT ── */
+    #portfolio-content { display: none; }
+    #portfolio-content.visible { display: flex; flex-direction: column; min-height: 100vh; }
+
+    /* ── HEADER BAR ── */
+    .pf-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2.5rem;
+      border-bottom: 1px solid rgba(200,169,110,0.2);
+      flex-shrink: 0;
+    }
+    .pf-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .pf-logo span { color: var(--accent); }
+    .pf-nav {
+      display: flex;
+      gap: 2rem;
+    }
+    .pf-nav a {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.45);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .pf-nav a:hover { color: var(--white); }
+
+    /* ── SLIDE EMBED AREA ── */
+    .pf-embed-wrap {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5rem 2rem 2rem;
+    }
+
+    .pf-embed-inner {
+      width: 100%;
+      max-width: 1440px;
+    }
+
+    /* Responsive 1440×839 aspect ratio = 839/1440 ≈ 58.26% */
+    .pf-aspect {
+      position: relative;
+      width: 100%;
+      padding-bottom: 58.26%;
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+    }
+
+    .pf-aspect iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── FOOTER ── */
+    .pf-footer {
+      text-align: center;
+      padding: 1.25rem;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: rgba(255,255,255,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PASSWORD GATE -->
+  <div id="pw-gate">
+    <div class="pw-box">
+      <div class="pw-logo">David Bridwell <span>Ph.D.</span></div>
+      <div class="pw-label">Protected Portfolio</div>
+      <input type="password" id="pw-input" class="pw-input" placeholder="Enter password" autocomplete="current-password">
+      <button class="pw-btn" id="pw-submit">View Portfolio</button>
+      <div class="pw-error" id="pw-error"></div>
+    </div>
+  </div>
+
+  <!-- PORTFOLIO CONTENT -->
+  <div id="portfolio-content">
+
+    <header class="pf-header">
+      <a href="index.html" class="pf-logo">David Bridwell <span>Ph.D.</span></a>
+      <nav class="pf-nav">
+        <a href="portfolio.html">Portfolio</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <div class="pf-embed-wrap">
+      <div class="pf-embed-inner">
+        <div class="pf-aspect">
+          <iframe
+            src="https://docs.google.com/presentation/d/e/2PACX-1vSONmSjPZsoPPE1Jx0Ro7O2R2rAvnp2En48LfsIZiPP9IUoF9DqeEdFL6Td8kOnaQ/pubembed?start=true&loop=false&delayms=60000"
+            allowfullscreen
+            mozallowfullscreen="true"
+            webkitallowfullscreen="true"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <footer class="pf-footer">David Bridwell Ph.D. &mdash; Confidential Portfolio</footer>
+
+  </div>
+
+  <script>
+    (function () {
+      const HASH = '585fe9c8029a2ca597b85c4b32443cc2edbd27f94d0f8f94a0ceeb549d5c1dcb';
+      const SESSION_KEY = 'pf_auth';
+      const gate = document.getElementById('pw-gate');
+      const content = document.getElementById('portfolio-content');
+      const input = document.getElementById('pw-input');
+      const btn = document.getElementById('pw-submit');
+      const errorEl = document.getElementById('pw-error');
+
+      function unlock() {
+        gate.classList.add('hidden');
+        content.classList.add('visible');
+      }
+
+      if (sessionStorage.getItem(SESSION_KEY) === '1') unlock();
+
+      async function attempt() {
+        const val = input.value;
+        if (!val) return;
+        const enc = new TextEncoder();
+        const buf = await crypto.subtle.digest('SHA-256', enc.encode(val));
+        const hex = Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+        if (hex === HASH) {
+          sessionStorage.setItem(SESSION_KEY, '1');
+          errorEl.textContent = '';
+          unlock();
+        } else {
+          errorEl.textContent = 'Incorrect password. Please try again.';
+          input.value = '';
+          input.focus();
+        }
+      }
+
+      btn.addEventListener('click', attempt);
+      input.addEventListener('keydown', e => { if (e.key === 'Enter') attempt(); });
+    })();
+  </script>
+
+</body>
+</html>
